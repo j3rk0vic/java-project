@@ -5,7 +5,7 @@
  */
 package hr.algebra.utilities;
 
-import hr.algebra.factory.UrlConnectionFactory;
+import hr.algebra.factory.UrlConnnectionFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -48,7 +48,7 @@ public class FileUtils {
 
     public static void copyFromUrl(String source, String destination) throws MalformedURLException, IOException {
         createDirHierarchy(destination);
-        HttpURLConnection con = UrlConnectionFactory.getHttpUrlConnection(source);
+        HttpURLConnection con = UrlConnnectionFactory.getHttpUrlConnection(source);
         try (InputStream is = con.getInputStream()) {
             Files.copy(is, Paths.get(destination));
         }
