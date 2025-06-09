@@ -15,12 +15,12 @@ import javax.swing.DefaultListModel;
  *
  * @author lecturer
  */
-public class UploadMovies extends javax.swing.JPanel {
+public class UploadMoviesPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form UploadArticlesPanel
      */
-    public UploadMovies() {
+    public UploadMoviesPanel() {
         initComponents();
     }
 
@@ -45,7 +45,7 @@ public class UploadMovies extends javax.swing.JPanel {
 
         jScrollPane1.setViewportView(lsArticles);
 
-        btnUpload.setText("Upload Articles");
+        btnUpload.setText("Upload Movies");
         btnUpload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUploadActionPerformed(evt);

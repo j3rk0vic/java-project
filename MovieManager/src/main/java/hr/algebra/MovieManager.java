@@ -5,7 +5,8 @@
 package hr.algebra;
 
 import hr.algebra.view.EditMoviesPanel;
-import hr.algebra.view.UploadMovies;
+import hr.algebra.view.UploadMoviesPanel;
+import hr.algebra.view.auth.RegisterPanel;
 
 /**
  *
@@ -91,7 +92,7 @@ public class MovieManager extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initPanels() {
-        tpContent.add(UPLOAD_MOVIES, new UploadMovies());
+        tpContent.add(UPLOAD_MOVIES, new UploadMoviesPanel());
         tpContent.add(EDIT_MOVIES, new EditMoviesPanel());
     }
     private static final String EDIT_MOVIES = "EDIT_MOVIES";

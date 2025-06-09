@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package hr.algebra.dal;
-
 import hr.algebra.model.Movie;
+import hr.algebra.model.User;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +21,7 @@ public interface Repository {
     void deleteMovie(int id) throws Exception;
     Optional<Movie> selectMovie(int id) throws Exception;
     List<Movie> selectMovies() throws Exception;
+    
+    int registerUser(User user) throws Exception;
+    Optional<User> loginUser(String username, String password) throws Exception;
 }
