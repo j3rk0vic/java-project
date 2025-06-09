@@ -21,7 +21,4 @@ public interface Repository {
     void deleteMovie(int id) throws Exception;
     Optional<Movie> selectMovie(int id) throws Exception;
     List<Movie> selectMovies() throws Exception;
-    
-    int registerUser(User user) throws Exception;
-    Optional<User> loginUser(String username, String password) throws Exception;
 }

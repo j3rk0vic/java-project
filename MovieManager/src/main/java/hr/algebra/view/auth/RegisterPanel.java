@@ -29,12 +29,12 @@ public class RegisterPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         tfRegisterUsername = new javax.swing.JTextField();
-        tfRegisterPassword = new javax.swing.JTextField();
         btnRegister = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         tfMail = new javax.swing.JTextField();
         lbRegisterMailError = new javax.swing.JLabel();
+        pfRegisterPassword = new javax.swing.JPasswordField();
 
         jLabel2.setText("password:");
 
@@ -51,6 +51,8 @@ public class RegisterPanel extends javax.swing.JPanel {
 
         lbRegisterMailError.setForeground(new java.awt.Color(255, 0, 51));
         lbRegisterMailError.setText("X");
+
+        pfRegisterPassword.setText("jPa");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -71,8 +73,8 @@ public class RegisterPanel extends javax.swing.JPanel {
                             .addComponent(btnRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(6, 6, 6)
-                                .addComponent(tfRegisterPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(pfRegisterPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -98,7 +100,7 @@ public class RegisterPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfRegisterPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pfRegisterPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnRegister)
                 .addContainerGap(354, Short.MAX_VALUE))
@@ -113,8 +115,8 @@ public class RegisterPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel lbRegisterMailError;
+    private javax.swing.JPasswordField pfRegisterPassword;
     private javax.swing.JTextField tfMail;
-    private javax.swing.JTextField tfRegisterPassword;
     private javax.swing.JTextField tfRegisterUsername;
     // End of variables declaration//GEN-END:variables
 }

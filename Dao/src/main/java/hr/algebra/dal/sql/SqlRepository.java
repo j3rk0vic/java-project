@@ -32,15 +32,6 @@ public class SqlRepository implements Repository {
     private static final String SELECT_MOVIE = "{ CALL selectMovie (?) }";
     private static final String SELECT_MOVIES = "{ CALL selectMovies }";
     
-    
-    private static final String REGISTER_USER = "{ CALL registerUser (?,?,?,?) }";
-    private static final String LOGIN_USER = "{ CALL loginUser (?,?) }";
-    
-    private static final String ID_USER = "IDUser";
-    private static final String USERNAME = "Username";
-    private static final String USER_PASSWORD = "UserPassword";
-    private static final String USER_ROLE = "UserRole";
-    
     @Override
     public int createMovie(Movie movie) throws Exception {
         DataSource dataSource = DataSourceSingleton.getInstance();
@@ -162,47 +153,6 @@ public class SqlRepository implements Repository {
         
         }    
         return movies;
-    }
-    
-    @Override
-    public int registerUser(User user) throws Exception {
-        DataSource dataSource = DataSourceSingleton.getInstance();
-        try (Connection con = dataSource.getConnection();
-                CallableStatement stmt = con.prepareCall(REGISTER_USER)) {
-            stmt.setString(USERNAME, user.getUsername());
-            stmt.setString(USER_PASSWORD, user.getPassword());
-            stmt.setString(USER_ROLE, user.getRole());
-            
-            stmt.registerOutParameter(4, Types.INTEGER);
-            
-            stmt.executeUpdate();
-            return stmt.getInt(ID_USER);
-        }
-        
-    }
-    
-    @Override 
-    public Optional<User> loginUser(String username, String password) throws Exception {
-        DataSource dataSource = DataSourceSingleton.getInstance();
-        try (Connection con = dataSource.getConnection();
-                CallableStatement stmt = con.prepareCall(LOGIN_USER)) {
-            stmt.setString(USERNAME, username);
-            stmt.setString(USER_PASSWORD, password);
-            
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    User user = new User(
-                            rs.getInt(ID_USER),
-                            rs.getString(USERNAME),
-                            rs.getString(USER_PASSWORD),
-                            rs.getString(USER_ROLE)
-                    );
-                    return Optional.of(user);
-                }
-            }
-        }
-        
-        return Optional.empty();
     }
     
 }
