@@ -8,6 +8,8 @@ import hr.algebra.view.EditMoviesPanel;
 import hr.algebra.view.UploadMoviesPanel;
 import hr.algebra.view.auth.LoginPanel;
 import hr.algebra.view.auth.RegisterPanel;
+import hr.algebra.view.entity.ActorPanel;
+import hr.algebra.view.entity.DirectorPanel;
 
 /**
  *
@@ -93,7 +95,10 @@ public class MovieManager extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initPanels() {
-        tpContent.add("AUTH", new RegisterPanel());
+        tpContent.add("ACTOR PANEL", new ActorPanel());
+        tpContent.add("DIRECTOR PANEL", new DirectorPanel());
+        // tpContent.add("LOGIN", new LoginPanel());
+        // tpContent.add("AUTH", new RegisterPanel());
         // tpContent.add(UPLOAD_MOVIES, new UploadMoviesPanel());
         // tpContent.add(EDIT_MOVIES, new EditMoviesPanel());
     }

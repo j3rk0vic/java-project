@@ -4,13 +4,20 @@
  */
 package hr.algebra.view.auth;
 
+import hr.algebra.dal.RepositoryFactory;
+import hr.algebra.dal.UserRepository;
+import hr.algebra.model.User;
 import hr.algebra.utilities.MessageUtils;
+import hr.algebra.view.model.UserTableModel;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -59,6 +66,11 @@ public class LoginPanel extends javax.swing.JPanel {
         jLabel3.setToolTipText("");
 
         btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
 
         lbLoginUsernameError.setForeground(new java.awt.Color(255, 0, 51));
         lbLoginUsernameError.setText("X");
@@ -114,6 +126,37 @@ public class LoginPanel extends javax.swing.JPanel {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         init();
     }//GEN-LAST:event_formComponentShown
+
+    private UserRepository repository;
+    private UserTableModel model;
+    
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        
+        // zali Boze tipkanja:
+        String username = tfLoginUsername.getText().trim();
+        String plainPassword = new String(pfLoginPassword.getPassword().toString().trim());
+        String hashedPassword = BCrypt.hashpw(plainPassword, BCrypt.gensalt());
+        
+        User user = new User(username, hashedPassword);
+        
+        try {
+            repository = RepositoryFactory.getUserRepository();
+            Optional<User> userOpt = repository.loginUser(username, plainPassword);
+            
+            if (userOpt.isPresent()) {
+                user = userOpt.get();
+                if (BCrypt.checkpw(plainPassword, user.getPassword())) {
+                    JOptionPane.showMessageDialog(btnLogin, "Login successful. Welcome, " + user.getUsername());
+                } else {
+                    JOptionPane.showMessageDialog(btnLogin, "Incorrect password.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(btnLogin, "User not found.");
+            }
+            
+        } catch (Exception exception) {
+        }
+    }//GEN-LAST:event_btnLoginActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

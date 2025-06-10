@@ -4,6 +4,19 @@
  */
 package hr.algebra.view.entity;
 
+import hr.algebra.dal.DirectorRepository;
+import hr.algebra.dal.RepositoryFactory;
+import hr.algebra.model.Director;
+import hr.algebra.utilities.MessageUtils;
+import hr.algebra.view.EditMoviesPanel;
+import hr.algebra.view.model.DirectorTableModel;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.text.JTextComponent;
+
 /**
  *
  * @author ivanjerkovic
@@ -26,19 +39,272 @@ public class DirectorPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel3 = new javax.swing.JLabel();
+        tfDirectorFirstName = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        tfDirectorLastName = new javax.swing.JTextField();
+        lbDirectorFirstNameError = new javax.swing.JLabel();
+        lbDirectorLastNameError = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbDirectors = new javax.swing.JTable();
+        btnAddDirector = new javax.swing.JButton();
+        btnUpdateDirector = new javax.swing.JButton();
+        btnDeleteDirector = new javax.swing.JButton();
+        btnDeleteAllDirectors = new javax.swing.JButton();
+
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
+
+        jLabel3.setText("First name:");
+
+        jLabel5.setText("Last name:");
+
+        lbDirectorFirstNameError.setForeground(new java.awt.Color(255, 0, 51));
+        lbDirectorFirstNameError.setText("X");
+
+        lbDirectorLastNameError.setForeground(new java.awt.Color(255, 0, 51));
+        lbDirectorLastNameError.setText("X");
+
+        tbDirectors.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tbDirectors);
+
+        btnAddDirector.setText("Add Director");
+        btnAddDirector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddDirectorActionPerformed(evt);
+            }
+        });
+
+        btnUpdateDirector.setText("Update Director");
+        btnUpdateDirector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateDirectorActionPerformed(evt);
+            }
+        });
+
+        btnDeleteDirector.setText("Delete Director");
+        btnDeleteDirector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteDirectorActionPerformed(evt);
+            }
+        });
+
+        btnDeleteAllDirectors.setText("Delete All");
+        btnDeleteAllDirectors.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteAllDirectorsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1193, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(271, 271, 271)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfDirectorFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbDirectorFirstNameError, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfDirectorLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbDirectorLastNameError, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAddDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnUpdateDirector, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnDeleteDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDeleteAllDirectors, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 790, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tfDirectorFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbDirectorFirstNameError, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tfDirectorLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbDirectorLastNameError, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUpdateDirector)
+                    .addComponent(btnAddDirector))
+                .addGap(2, 2, 2)
+                .addComponent(btnDeleteAllDirectors)
+                .addGap(7, 7, 7)
+                .addComponent(btnDeleteDirector)
+                .addGap(51, 51, 51)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private DirectorRepository repository;
+    private DirectorTableModel model;
+    
+    private List<JTextComponent> validationFields;
+    private List<JLabel> errorLabels;
+    
+    private Director selectedDirector;
+    
+    private void btnAddDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDirectorActionPerformed
+        if (!formValid()) {
+            return;
+        }
+
+        try {
+            Director director = new Director(
+                tfDirectorFirstName.getText().trim(),
+                tfDirectorLastName.getText().trim()
+            );
+
+            repository = RepositoryFactory.getDirectorRepository();
+            repository.createDirector(director);
+            clearForm();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnAddDirectorActionPerformed
+
+    private void btnUpdateDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateDirectorActionPerformed
+        if (selectedDirector == null) {
+            MessageUtils.showInformationMessage("INFO", "Please select");
+            return;
+        }
+
+        if (!formValid()) {
+            return;
+        }
+
+        try {
+            selectedDirector.setFirstName(tfDirectorFirstName.getText().trim());
+            selectedDirector.setLastName(tfDirectorLastName.getText().trim());
+
+            repository.updateDirector(selectedDirector);
+            model.setDirectors(repository.selectDirectors());
+            clearForm();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnUpdateDirectorActionPerformed
+
+    private void btnDeleteDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteDirectorActionPerformed
+        if (selectedDirector == null) {
+            MessageUtils.showInformationMessage("INFO", "Please select");
+            return;
+        }
+
+        try {
+            repository.deleteDirector(selectedDirector.getIdDirector());
+            model.setDirectors(repository.selectDirectors());
+            clearForm();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnDeleteDirectorActionPerformed
+
+    private void btnDeleteAllDirectorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteAllDirectorsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteAllDirectorsActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        init();
+    }//GEN-LAST:event_formComponentShown
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddDirector;
+    private javax.swing.JButton btnDeleteAllDirectors;
+    private javax.swing.JButton btnDeleteDirector;
+    private javax.swing.JButton btnUpdateDirector;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbDirectorFirstNameError;
+    private javax.swing.JLabel lbDirectorLastNameError;
+    private javax.swing.JTable tbDirectors;
+    private javax.swing.JTextField tfDirectorFirstName;
+    private javax.swing.JTextField tfDirectorLastName;
     // End of variables declaration//GEN-END:variables
+    
+    private boolean formValid() {
+        hideErrors();
+        boolean ok = true;
+
+        for (int i = 0; i < validationFields.size(); i++) {
+            ok &= !validationFields.get(i).getText().trim().isEmpty();
+            errorLabels.get(i).setVisible(validationFields.get(i).getText().trim().isEmpty());
+        }
+        return ok;
+    }
+    
+    private void hideErrors() {
+        errorLabels.forEach(e -> e.setVisible(false));
+    }
+
+    private void init() {
+        try {
+            initValidation();
+            hideErrors();
+        } catch (Exception ex) {
+            Logger.getLogger(DirectorPanel.class.getName()).log(Level.SEVERE, null, ex);
+            MessageUtils.showErrorMessage("Unrecoverable error", "Cannot initiate the form");
+            System.exit(1);
+        }
+    }
+
+    private void initValidation() {
+        validationFields = Arrays.asList(
+                tfDirectorFirstName,
+                tfDirectorLastName
+        );
+        errorLabels = Arrays.asList(
+                lbDirectorFirstNameError,
+                lbDirectorLastNameError
+        );
+    }
+
+    private void clearForm() {
+        hideErrors();
+        validationFields.forEach(e -> e.setText(""));
+    }
 }

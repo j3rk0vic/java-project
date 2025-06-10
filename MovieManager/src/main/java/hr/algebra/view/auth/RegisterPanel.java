@@ -130,7 +130,6 @@ public class RegisterPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private UserRepository repository;
-    private UserTableModel model;
     
     private List<JTextComponent> validationFields;
     private List<JLabel> errorLabels;
@@ -141,7 +140,7 @@ public class RegisterPanel extends javax.swing.JPanel {
         
         
         // kod: nedaj Boze nikome
-        // 10.6.2025. -> radi, ne diraj zasad
+        // 10.6.2025. -> radi, ne diraj zasad.... null more uc u bazu 
         
         // mislin da je sad ok, vidi poslje
         try {
