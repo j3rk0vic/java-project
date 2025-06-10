@@ -6,6 +6,7 @@ package hr.algebra.dal;
 
 import hr.algebra.model.Actor;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -15,5 +16,6 @@ public interface ActorRepository {
     void createActor(Actor actor) throws Exception;
     void updateActor(Actor actor) throws Exception;
     void deleteActor(int id) throws Exception;
+    Optional<Actor> selectActor(int id) throws Exception;
     List<Actor> selectActors() throws Exception;
 }

@@ -6,6 +6,7 @@ package hr.algebra.dal;
 
 import hr.algebra.model.Director;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -15,5 +16,6 @@ public interface DirectorRepository {
     void createDirector(Director director) throws Exception;
     void updateDirector(Director director) throws Exception;
     void deleteDirector(int id) throws Exception;
+    Optional<Director> selectDirector(int id) throws Exception;
     List<Director> selectDirectors() throws Exception;
 }

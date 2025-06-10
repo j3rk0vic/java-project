@@ -10,6 +10,7 @@ import hr.algebra.view.auth.LoginPanel;
 import hr.algebra.view.auth.RegisterPanel;
 import hr.algebra.view.entity.ActorPanel;
 import hr.algebra.view.entity.DirectorPanel;
+import hr.algebra.view.entity.GenrePanel;
 
 /**
  *
@@ -97,10 +98,11 @@ public class MovieManager extends javax.swing.JFrame {
     private void initPanels() {
         tpContent.add("ACTOR PANEL", new ActorPanel());
         tpContent.add("DIRECTOR PANEL", new DirectorPanel());
-        // tpContent.add("LOGIN", new LoginPanel());
-        // tpContent.add("AUTH", new RegisterPanel());
-        // tpContent.add(UPLOAD_MOVIES, new UploadMoviesPanel());
-        // tpContent.add(EDIT_MOVIES, new EditMoviesPanel());
+        tpContent.add("GENRE PANEL", new GenrePanel());
+        tpContent.add("LOGIN", new LoginPanel());
+        tpContent.add("AUTH", new RegisterPanel());
+        tpContent.add(UPLOAD_MOVIES, new UploadMoviesPanel());
+        tpContent.add(EDIT_MOVIES, new EditMoviesPanel());
     }
     private static final String EDIT_MOVIES = "EDIT_MOVIES";
     private static final String UPLOAD_MOVIES = "UPLOAD_MOVIES";

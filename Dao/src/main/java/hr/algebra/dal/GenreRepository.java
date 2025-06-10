@@ -6,6 +6,7 @@ package hr.algebra.dal;
 
 import hr.algebra.model.Genre;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -15,5 +16,6 @@ public interface GenreRepository {
     void createGenre(Genre genre) throws Exception;
     void updateGenre(Genre genre) throws Exception;
     void deleteGenre(int id) throws Exception;
+    Optional<Genre> selectGenre(int id) throws Exception;
     List<Genre> selectGenres() throws Exception;
 }

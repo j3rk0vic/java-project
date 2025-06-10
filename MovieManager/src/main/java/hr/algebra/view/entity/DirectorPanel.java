@@ -6,15 +6,17 @@ package hr.algebra.view.entity;
 
 import hr.algebra.dal.DirectorRepository;
 import hr.algebra.dal.RepositoryFactory;
+import hr.algebra.model.Actor;
 import hr.algebra.model.Director;
 import hr.algebra.utilities.MessageUtils;
-import hr.algebra.view.EditMoviesPanel;
 import hr.algebra.view.model.DirectorTableModel;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.ListSelectionModel;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -79,6 +81,14 @@ public class DirectorPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbDirectors.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbDirectorsMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tbDirectorsMouseReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbDirectors);
 
         btnAddDirector.setText("Add Director");
@@ -250,6 +260,14 @@ public class DirectorPanel extends javax.swing.JPanel {
         init();
     }//GEN-LAST:event_formComponentShown
 
+    private void tbDirectorsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDirectorsMouseClicked
+        selectDirector();
+    }//GEN-LAST:event_tbDirectorsMouseClicked
+
+    private void tbDirectorsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDirectorsMouseReleased
+        selectDirector();
+    }//GEN-LAST:event_tbDirectorsMouseReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddDirector;
@@ -280,11 +298,21 @@ public class DirectorPanel extends javax.swing.JPanel {
     private void hideErrors() {
         errorLabels.forEach(e -> e.setVisible(false));
     }
+    
+    private void initTable() throws Exception {
+        repository = RepositoryFactory.getDirectorRepository();
+        tbDirectors.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tbDirectors.setAutoCreateRowSorter(true);
+        tbDirectors.setRowHeight(25);
+        model = new DirectorTableModel(repository.selectDirectors());
+        tbDirectors.setModel(model);
+    }
 
     private void init() {
         try {
             initValidation();
             hideErrors();
+            initTable();
         } catch (Exception ex) {
             Logger.getLogger(DirectorPanel.class.getName()).log(Level.SEVERE, null, ex);
             MessageUtils.showErrorMessage("Unrecoverable error", "Cannot initiate the form");
@@ -306,5 +334,28 @@ public class DirectorPanel extends javax.swing.JPanel {
     private void clearForm() {
         hideErrors();
         validationFields.forEach(e -> e.setText(""));
+    }
+    
+    private void selectDirector() {
+        int selectedRow = tbDirectors.getSelectedRow();
+        int rowIndex = tbDirectors.convertRowIndexToModel(selectedRow);
+
+        int id = (int) model.getValueAt(rowIndex, 0);
+
+        try {
+            Optional<Director> opt = repository.selectDirector(id);
+            if (opt.isPresent()) {
+                selectedDirector = opt.get();
+                fillForm(selectedDirector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void fillForm(Director director) {
+        tfDirectorFirstName.setText(director.getFirstName());
+        tfDirectorLastName.setText(director.getLastName());
     }
 }

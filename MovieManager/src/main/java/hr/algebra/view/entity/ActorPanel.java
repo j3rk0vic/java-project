@@ -12,9 +12,11 @@ import hr.algebra.view.EditMoviesPanel;
 import hr.algebra.view.model.ActorTableModel;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.ListSelectionModel;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -79,6 +81,14 @@ public class ActorPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbActors.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbActorsMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tbActorsMouseReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbActors);
 
         btnAddActor.setText("Add Actor");
@@ -121,20 +131,17 @@ public class ActorPanel extends javax.swing.JPanel {
                 .addGap(271, 271, 271)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(tfActorFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lbActorFirstNameError, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(tfActorLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lbActorLastNameError, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfActorFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbActorFirstNameError, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfActorLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbActorLastNameError, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(112, 112, 112)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -142,8 +149,8 @@ public class ActorPanel extends javax.swing.JPanel {
                                 .addComponent(btnAddActor, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnUpdateActor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(btnDeleteActor, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(100, 436, Short.MAX_VALUE))))
+                            .addComponent(btnDeleteActor, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnDeleteAllActors, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,6 +260,14 @@ public class ActorPanel extends javax.swing.JPanel {
         init();
     }//GEN-LAST:event_formComponentShown
 
+    private void tbActorsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbActorsMouseClicked
+        selectActor();
+    }//GEN-LAST:event_tbActorsMouseClicked
+
+    private void tbActorsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbActorsMouseReleased
+        selectActor();
+    }//GEN-LAST:event_tbActorsMouseReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddActor;
@@ -283,11 +298,21 @@ public class ActorPanel extends javax.swing.JPanel {
     private void hideErrors() {
         errorLabels.forEach(e -> e.setVisible(false));
     }
+    
+    private void initTable() throws Exception {
+        repository = RepositoryFactory.getActorRepository();
+        tbActors.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tbActors.setAutoCreateRowSorter(true);
+        tbActors.setRowHeight(25);
+        model = new ActorTableModel(repository.selectActors());
+        tbActors.setModel(model);
+    }
 
     private void init() {
         try {
             initValidation();
             hideErrors();
+            initTable();
         } catch (Exception ex) {
             Logger.getLogger(ActorPanel.class.getName()).log(Level.SEVERE, null, ex);
             MessageUtils.showErrorMessage("Unrecoverable error", "Cannot initiate the form");
@@ -309,5 +334,28 @@ public class ActorPanel extends javax.swing.JPanel {
     private void clearForm() {
         hideErrors();
         validationFields.forEach(e -> e.setText(""));
+    }
+
+    private void selectActor() {
+        int selectedRow = tbActors.getSelectedRow();
+        int rowIndex = tbActors.convertRowIndexToModel(selectedRow);
+
+        int id = (int) model.getValueAt(rowIndex, 0);
+
+        try {
+            Optional<Actor> opt = repository.selectActor(id);
+            if (opt.isPresent()) {
+                selectedActor = opt.get();
+                fillForm(selectedActor);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void fillForm(Actor actor) {
+        tfActorFirstName.setText(actor.getFirstName());
+        tfActorLastName.setText(actor.getLastName());
     }
 }

@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import javax.sql.DataSource;
 
 /**
  *
@@ -26,6 +28,7 @@ public class DirectorRepositorySql implements DirectorRepository {
     private static final String CREATE_DIRECTOR = "{ CALL createDirector (?,?,?) }";
     private static final String UPDATE_DIRECTOR = "{ CALL updateDirector (?,?,?) }";
     private static final String DELETE_DIRECTOR = "{ CALL deleteDirector (?) }";
+    private static final String SELECT_DIRECTOR = "{ CALL selectDirector (?) }";
     private static final String SELECT_DIRECTORS = "{ CALL selectDirectors }";
 
     @Override
@@ -58,7 +61,7 @@ public class DirectorRepositorySql implements DirectorRepository {
     @Override
     public void deleteDirector(int id) throws Exception {
         try (Connection con = DataSourceSingleton.getInstance().getConnection();
-                CallableStatement stmt = con.prepareCall(CREATE_DIRECTOR)) {
+                CallableStatement stmt = con.prepareCall(DELETE_DIRECTOR)) {
             stmt.setInt(ID_DIRECTOR, id);
             stmt.executeUpdate();
         }
@@ -82,5 +85,27 @@ public class DirectorRepositorySql implements DirectorRepository {
         }
         
         return directors;
+    }
+    
+    @Override
+    public Optional<Director> selectDirector(int id) throws Exception {
+        DataSource dataSource = DataSourceSingleton.getInstance();
+        try (Connection con = dataSource.getConnection(); 
+                CallableStatement stmt = con.prepareCall(SELECT_DIRECTOR)) {
+         
+            stmt.setInt(ID_DIRECTOR, id);
+
+            try(ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(new Director(
+                            rs.getInt(ID_DIRECTOR), 
+                            rs.getString(FIRST_NAME),
+                            rs.getString(LAST_NAME)
+                    ));
+                }
+            }
+        
+        }    
+        return Optional.empty();
     }
 }
