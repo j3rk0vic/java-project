@@ -4,6 +4,8 @@
  */
 package hr.algebra.model;
 
+import javax.sound.sampled.AudioPermission;
+
 /**
  *
  * @author ivanjerkovic
@@ -12,22 +14,29 @@ public class User {
     private int idUser;
     private String username;
     private String password;
-    private String role;
+    private Role role;
+    
+    
     
     public User() {
     }
     
-    public User(int idUser, String username, String password, String role) {
+    public User(int idUser, String username, String password, Role role) {
         this.idUser = idUser;
         this.username = username;
         this.password = password;
         this.role = role;
     }
     
-    public User(String username, String password, String role) {
+    public User(String username, String password, Role role) {
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+    
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public int getIdUser() {
@@ -54,11 +63,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

@@ -93,7 +93,7 @@ public class MovieManager extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initPanels() {
-        tpContent.add("AUTH", new LoginPanel());
+        tpContent.add("AUTH", new RegisterPanel());
         // tpContent.add(UPLOAD_MOVIES, new UploadMoviesPanel());
         // tpContent.add(EDIT_MOVIES, new EditMoviesPanel());
     }

@@ -5,6 +5,7 @@
 package hr.algebra.dal.sql;
 
 import hr.algebra.dal.UserRepository;
+import hr.algebra.model.Role;
 import hr.algebra.model.User;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -34,7 +35,7 @@ public class UserRepositorySql implements UserRepository{
                 CallableStatement stmt = con.prepareCall(REGISTER_USER)) {
             stmt.setString(USERNAME, user.getUsername());
             stmt.setString(USER_PASSWORD, user.getPassword());
-            stmt.setString(USER_ROLE, user.getRole());
+            stmt.setString(USER_ROLE, user.getRole().name());
             stmt.registerOutParameter(ID_USER, Types.INTEGER);
             
             stmt.executeUpdate();
@@ -52,11 +53,12 @@ public class UserRepositorySql implements UserRepository{
             
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
+                    Role role = Role.valueOf(rs.getString(USER_ROLE));
                     User user = new User(
                             rs.getInt(ID_USER),
                             rs.getString(USERNAME),
                             rs.getString(USER_PASSWORD),
-                            rs.getString(USER_ROLE)
+                            role
                     );
                     
                     return Optional.of(user);
