@@ -8,7 +8,6 @@ import hr.algebra.dal.ActorRepository;
 import hr.algebra.dal.RepositoryFactory;
 import hr.algebra.model.Actor;
 import hr.algebra.utilities.MessageUtils;
-import hr.algebra.view.EditMoviesPanel;
 import hr.algebra.view.model.ActorTableModel;
 import java.util.Arrays;
 import java.util.List;

@@ -527,6 +527,7 @@ public class EditMoviesPanel extends javax.swing.JPanel {
     private void fillForm(Movie movie) {
         tfTitle.setText(movie.getTitle());
         taDesc.setText(movie.getDescription());
+        tfLink.setText(movie.getLink());
         tfPicturePath.setText(movie.getPicturePath());
         tfPublishedDate.setText(movie.getPublishedDate().format(Movie.DATE_FORMATTER));
         setIcon(lbIcon, new File(movie.getPicturePath()));

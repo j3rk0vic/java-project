@@ -46,9 +46,9 @@ public class MovieParser {
             }
             String name = UUID.randomUUID() + ext;
             String destination = DIR + File.separator + name;
-            
+
             FileUtils.copyFromUrl(source, destination);
-            
+
             movie.setPicturePath(destination);
         } catch (Exception ex) {
             Logger.getLogger(MovieParser.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,7 +82,8 @@ public class MovieParser {
 
     }
 
-    private static final String RSS_URL = "https://slobodnadalmacija.hr/feed";
+    // private static final String RSS_URL = "https://slobodnadalmacija.hr/feed";
+    private static final String RSS_URL = "https://www.moviefone.com/feeds/what-to-watch.rss";
     private static final String ATTRIBUTE_URL = "url";
     private static final String EXT = ".jpg";
     private static final String DIR = "assets";
@@ -94,20 +95,20 @@ public class MovieParser {
 
         // otvaranje konekcije:
         HttpURLConnection con = UrlConnnectionFactory.getHttpUrlConnection(RSS_URL);
-        
+
         // ovo kaze: daj mi string podataka da ih pocnen citat (otvoren stream)
-        try(InputStream is = con.getInputStream()) {
+        try (InputStream is = con.getInputStream()) {
             XMLEventReader reader = ParseFactory.createStaxParser(is);
-            
+
             // jos uvik nije naletija tag koji mene zanima:
             Optional<Tag> tag = Optional.empty();
-            
+
             // jos uvik article nije nasta jer nisan naletija na itema, tek kad naletin na itema postojat ce article
             Movie movie = null;
-            
+
             // kad parser starta, nista nije zadano. nema taga u obradi, nema articla, nema startElementa 
             StartElement startElement = null;
-            
+
             // dok god reader ima evenata, daj event -> pull parser
             while (reader.hasNext()) {
                 XMLEvent event = reader.nextEvent();
@@ -122,6 +123,16 @@ public class MovieParser {
                             movie = new Movie();
                             movies.add(movie);
                         }
+
+                        // enc je self-closing
+                        if (tag.isPresent() && tag.get().equals(Tag.ENC) && movie != null) {
+                            Attribute att = startElement.getAttributeByName(new QName(ATTRIBUTE_URL));
+                            if (att != null) {
+                                // System.out.println("Found image URL: " + att.getValue()); -> log samo da provjerin da su se ucitale slike kako triba
+                                uploadPicture(movie, att.getValue());
+                            }
+                        }
+                        
                         break;
                     case XMLStreamConstants.CHARACTERS:
                         // citan tag koji me zanima
@@ -131,29 +142,35 @@ public class MovieParser {
                                     .asCharacters()
                                     .getData()
                                     .trim();
-                            
+
                             switch (tag.get()) {
-                        case TITLE:
-                            // podaci postoje:
-                            if (!data.isEmpty()) {
-                                movie.setTitle(data);
+                                case TITLE:
+                                    // podaci postoje:
+                                    if (!data.isEmpty()) {
+                                        movie.setTitle(data);
+                                    }
+                                    break;
+                                case LINK:
+                                    movie.setLink(data);
+                                    break;
+
+                                case DESC:
+                                    if (!data.isEmpty()) {
+                                        movie.setDescription(data);
+                                    }
+                                    break;
+                                case PUB_DATE:
+                                    if (!data.isEmpty()) {
+                                        try {
+                                            DateTimeFormatter rssFormatter = DateTimeFormatter.RFC_1123_DATE_TIME;
+                                            movie.setPublishedDate(LocalDateTime.parse(data, rssFormatter));
+                                        } catch (Exception e) {
+                                            Logger.getLogger(MovieParser.class.getName()).log(Level.WARNING, "Could not parse pubDate" + data, e);
+                                            movie.setPublishedDate(LocalDateTime.now());
+                                        }
+                                    }
                             }
-                            break;
-                        case DESC:
-                            if (!data.isEmpty()) {
-                                movie.setDescription(data);
-                            }
-                            break;
-                        case ENC:
-                            if (startElement !=  null) {
-                                Attribute att = startElement.getAttributeByName(new QName(ATTRIBUTE_URL)); // iman atribut koji se zove "url" i sad cu ga ja izvuc iz taga
-                                if (att != null) {
-                                    uploadPicture(movie, att.getValue());
-                                }
-                            }
-                            break;
-                            }
-                            
+
                         }
                         break;
                 }
