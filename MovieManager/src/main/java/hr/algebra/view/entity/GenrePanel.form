@@ -21,7 +21,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="947" max="32767" attributes="0"/>
-              <Component id="btnDeleteAllActors" min="-2" pref="184" max="-2" attributes="0"/>
+              <Component id="btnDeleteAllGenres" min="-2" pref="184" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
@@ -67,7 +67,7 @@
                   <Component id="btnAddGenre" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-              <Component id="btnDeleteAllActors" min="-2" max="-2" attributes="0"/>
+              <Component id="btnDeleteAllGenres" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
               <Component id="btnDeleteGenre" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
@@ -83,12 +83,12 @@
         <Property name="text" type="java.lang.String" value="Genre:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnDeleteAllActors">
+    <Component class="javax.swing.JButton" name="btnDeleteAllGenres">
       <Properties>
         <Property name="text" type="java.lang.String" value="Delete All"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteAllActorsActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteAllGenresActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnUpdateGenre">

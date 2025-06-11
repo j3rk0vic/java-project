@@ -26,6 +26,7 @@ public class GenreRepositorySql implements GenreRepository {
     private static final String DELETE_GENRE = "{ CALL deleteGenre (?) }";
     private static final String SELECT_GENRES = "{ CALL selectGenres }";
     private static final String SELECT_GENRE = "{ CALL selectGenre (?) }";
+    private static final String DELETE_ALL_GENRES = "{ CALL deleteAllGenres }";
     
     private static final String ID_GENRE = "IDGenre";
     private static final String NAME = "Name";
@@ -44,12 +45,12 @@ public class GenreRepositorySql implements GenreRepository {
     }
 
     @Override
-    public void updateGenre(Genre genre) throws Exception {
+    public void updateGenre(int id, Genre genre) throws Exception {
         try (Connection con = DataSourceSingleton.getInstance().getConnection();
-                CallableStatement stmt = con.prepareCall(CREATE_GENRE)) {
-            stmt.setInt(ID_GENRE, genre.getIdGenre());
+                CallableStatement stmt = con.prepareCall(UPDATE_GENRE)) {
             stmt.setString(NAME, genre.getName());
            
+            stmt.setInt(ID_GENRE, id);
             stmt.executeUpdate();
         }
     }
@@ -102,6 +103,15 @@ public class GenreRepositorySql implements GenreRepository {
         
         }    
         return Optional.empty();
+    }
+    
+    @Override 
+    public void deleteAllGenres() throws Exception {
+        DataSource dataSource = DataSourceSingleton.getInstance();
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(DELETE_ALL_GENRES)) {
+            stmt.executeUpdate();
+        }
     }
     
 }

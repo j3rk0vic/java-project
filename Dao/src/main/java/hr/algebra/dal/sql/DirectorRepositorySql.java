@@ -30,6 +30,7 @@ public class DirectorRepositorySql implements DirectorRepository {
     private static final String DELETE_DIRECTOR = "{ CALL deleteDirector (?) }";
     private static final String SELECT_DIRECTOR = "{ CALL selectDirector (?) }";
     private static final String SELECT_DIRECTORS = "{ CALL selectDirectors }";
+    private static final String DELETE_ALL_DIRECTORS = "{ CALL deleteAllDirectors }";
 
     @Override
     public void createDirector(Director director) throws Exception {
@@ -46,13 +47,13 @@ public class DirectorRepositorySql implements DirectorRepository {
     }
 
     @Override
-    public void updateDirector(Director director) throws Exception {
+    public void updateDirector(int id, Director director) throws Exception {
         try (Connection con = DataSourceSingleton.getInstance().getConnection();
                 CallableStatement stmt = con.prepareCall(UPDATE_DIRECTOR)) {
-            stmt.setInt(ID_DIRECTOR, director.getIdDirector());
             stmt.setString(FIRST_NAME, director.getFirstName());
             stmt.setString(LAST_NAME, director.getLastName());
-            stmt.registerOutParameter(ID_DIRECTOR, Types.INTEGER);
+            
+            stmt.setInt(ID_DIRECTOR, id);
             
             stmt.executeUpdate();
         }
@@ -107,5 +108,14 @@ public class DirectorRepositorySql implements DirectorRepository {
         
         }    
         return Optional.empty();
+    }
+    
+    @Override 
+    public void deleteAllDirectors() throws Exception {
+        DataSource dataSource = DataSourceSingleton.getInstance();
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(DELETE_ALL_DIRECTORS)) {
+            stmt.executeUpdate();
+        }
     }
 }

@@ -14,8 +14,9 @@ import java.util.Optional;
  */
 public interface ActorRepository {
     void createActor(Actor actor) throws Exception;
-    void updateActor(Actor actor) throws Exception;
+    void updateActor(int id, Actor actor) throws Exception;
     void deleteActor(int id) throws Exception;
+    void deleteAllActors() throws Exception;
     Optional<Actor> selectActor(int id) throws Exception;
     List<Actor> selectActors() throws Exception;
 }

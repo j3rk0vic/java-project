@@ -205,6 +205,7 @@ public class ActorPanel extends javax.swing.JPanel {
 
             repository = RepositoryFactory.getActorRepository();
             repository.createActor(actor);
+            model.setActors(repository.selectActors());
             clearForm();
 
         } catch (Exception e) {
@@ -226,7 +227,7 @@ public class ActorPanel extends javax.swing.JPanel {
             selectedActor.setFirstName(tfActorFirstName.getText().trim());
             selectedActor.setLastName(tfActorLastName.getText().trim());
 
-            repository.updateActor(selectedActor);
+            repository.updateActor(selectedActor.getIdActor(), selectedActor);
             model.setActors(repository.selectActors());
             clearForm();
 
@@ -252,7 +253,19 @@ public class ActorPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteActorActionPerformed
 
     private void btnDeleteAllActorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteAllActorsActionPerformed
-        // TODO add your handling code here:
+        if (!MessageUtils.showConfirmDialog("Confirm", "Are you sure you want to delete ALL actors?")) {
+            return;
+        }
+
+        try {
+            repository.deleteAllActors();
+            model.setActors(repository.selectActors());
+            clearForm();
+            MessageUtils.showInformationMessage("INFO", "All actors deleted successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageUtils.showErrorMessage("ERROR", "Could not delete all actors.");
+        }
     }//GEN-LAST:event_btnDeleteAllActorsActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown

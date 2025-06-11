@@ -30,6 +30,7 @@ public class ActorRepositorySql implements ActorRepository {
     private static final String DELETE_ACTOR = "{ CALL deleteActor (?) }";
     private static final String SELECT_ACTOR = "{ CALL selectActor (?) }";
     private static final String SELECT_ACTORS = "{ CALL selectActors }";
+    private static final String DELETE_ALL_ACTORS = "{ CALL deleteAllActors }";
 
     @Override
     public void createActor(Actor actor) throws Exception {
@@ -46,13 +47,13 @@ public class ActorRepositorySql implements ActorRepository {
     }
 
     @Override
-    public void updateActor(Actor actor) throws Exception {
+    public void updateActor(int id, Actor actor) throws Exception {
         try (Connection con = DataSourceSingleton.getInstance().getConnection();
                 CallableStatement stmt = con.prepareCall(UPDATE_ACTOR)) {
-            stmt.setInt(ID_ACTOR, actor.getIdActor());
             stmt.setString(FIRST_NAME, actor.getFirstName());
             stmt.setString(LAST_NAME, actor.getLastName());
-            stmt.registerOutParameter(ID_ACTOR, Types.INTEGER);
+            
+            stmt.setInt(ID_ACTOR, id);
             
             stmt.executeUpdate();
         }
@@ -107,5 +108,14 @@ public class ActorRepositorySql implements ActorRepository {
         
         }    
         return Optional.empty();
+    }
+    
+    @Override 
+    public void deleteAllActors() throws Exception {
+        DataSource dataSource = DataSourceSingleton.getInstance();
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(DELETE_ALL_ACTORS)) {
+            stmt.executeUpdate();
+        }
     }
 }

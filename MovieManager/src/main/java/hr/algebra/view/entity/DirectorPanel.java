@@ -206,6 +206,7 @@ public class DirectorPanel extends javax.swing.JPanel {
 
             repository = RepositoryFactory.getDirectorRepository();
             repository.createDirector(director);
+            model.setDirectors(repository.selectDirectors());
             clearForm();
 
         } catch (Exception e) {
@@ -227,7 +228,7 @@ public class DirectorPanel extends javax.swing.JPanel {
             selectedDirector.setFirstName(tfDirectorFirstName.getText().trim());
             selectedDirector.setLastName(tfDirectorLastName.getText().trim());
 
-            repository.updateDirector(selectedDirector);
+            repository.updateDirector(selectedDirector.getIdDirector(), selectedDirector);
             model.setDirectors(repository.selectDirectors());
             clearForm();
 
@@ -253,7 +254,19 @@ public class DirectorPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteDirectorActionPerformed
 
     private void btnDeleteAllDirectorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteAllDirectorsActionPerformed
-        // TODO add your handling code here:
+        if (!MessageUtils.showConfirmDialog("Confirm", "Are you sure you want to delete ALL directors?")) {
+            return;
+        }
+
+        try {
+            repository.deleteAllDirectors();
+            model.setDirectors(repository.selectDirectors());
+            clearForm();
+            MessageUtils.showInformationMessage("INFO", "All directors deleted successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageUtils.showErrorMessage("ERROR", "Could not delete all directors.");
+        }
     }//GEN-LAST:event_btnDeleteAllDirectorsActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown

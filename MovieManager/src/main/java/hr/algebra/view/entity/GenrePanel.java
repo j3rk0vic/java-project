@@ -7,7 +7,6 @@ package hr.algebra.view.entity;
 import hr.algebra.dal.GenreRepository;
 import hr.algebra.dal.RepositoryFactory;
 import hr.algebra.model.Genre;
-import hr.algebra.model.Movie;
 import hr.algebra.utilities.MessageUtils;
 import hr.algebra.view.model.GenreTableModel;
 import java.util.Arrays;
@@ -16,6 +15,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.text.JTextComponent;
 
@@ -42,7 +42,7 @@ public class GenrePanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel5 = new javax.swing.JLabel();
-        btnDeleteAllActors = new javax.swing.JButton();
+        btnDeleteAllGenres = new javax.swing.JButton();
         btnUpdateGenre = new javax.swing.JButton();
         btnAddGenre = new javax.swing.JButton();
         tfGenre = new javax.swing.JTextField();
@@ -59,10 +59,10 @@ public class GenrePanel extends javax.swing.JPanel {
 
         jLabel5.setText("Genre:");
 
-        btnDeleteAllActors.setText("Delete All");
-        btnDeleteAllActors.addActionListener(new java.awt.event.ActionListener() {
+        btnDeleteAllGenres.setText("Delete All");
+        btnDeleteAllGenres.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteAllActorsActionPerformed(evt);
+                btnDeleteAllGenresActionPerformed(evt);
             }
         });
 
@@ -115,7 +115,7 @@ public class GenrePanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDeleteAllActors, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDeleteAllGenres, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62))
             .addGroup(layout.createSequentialGroup()
                 .addGap(275, 275, 275)
@@ -151,7 +151,7 @@ public class GenrePanel extends javax.swing.JPanel {
                     .addComponent(btnUpdateGenre)
                     .addComponent(btnAddGenre))
                 .addGap(2, 2, 2)
-                .addComponent(btnDeleteAllActors)
+                .addComponent(btnDeleteAllGenres)
                 .addGap(7, 7, 7)
                 .addComponent(btnDeleteGenre)
                 .addGap(60, 60, 60)
@@ -162,16 +162,28 @@ public class GenrePanel extends javax.swing.JPanel {
 
     private GenreRepository repository;
     private GenreTableModel model;
-    
+
     private List<JTextComponent> validationFields;
     private List<JLabel> errorLabels;
-    
+
     private Genre selectedGenre;
-    
-    
-    private void btnDeleteAllActorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteAllActorsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeleteAllActorsActionPerformed
+
+
+    private void btnDeleteAllGenresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteAllGenresActionPerformed
+        if (!MessageUtils.showConfirmDialog("Confirm", "Are you sure you want to delete ALL genres?")) {
+            return;
+        }
+
+        try {
+            repository.deleteAllGenres();
+            model.setGenres(repository.selectGenres());
+            clearForm();
+            MessageUtils.showInformationMessage("INFO", "All genres deleted successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageUtils.showErrorMessage("ERROR", "Could not delete all genres.");
+        }
+    }//GEN-LAST:event_btnDeleteAllGenresActionPerformed
 
     private void btnUpdateGenreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateGenreActionPerformed
         if (!formValid()) {
@@ -179,12 +191,11 @@ public class GenrePanel extends javax.swing.JPanel {
         }
 
         try {
-            Genre genre = new Genre(
-                tfGenre.getText().trim()
-            );
+            selectedGenre.setName(tfGenre.getText().trim());
 
             repository = RepositoryFactory.getGenreRepository();
-            repository.createGenre(genre);
+            repository.updateGenre(selectedGenre.getIdGenre(), selectedGenre);
+            model.setGenres(repository.selectGenres());
             clearForm();
 
         } catch (Exception e) {
@@ -199,11 +210,12 @@ public class GenrePanel extends javax.swing.JPanel {
 
         try {
             Genre genre = new Genre(
-                tfGenre.getText().trim()
+                    tfGenre.getText().trim()
             );
 
             repository = RepositoryFactory.getGenreRepository();
             repository.createGenre(genre);
+            model.setGenres(repository.selectGenres());
             clearForm();
 
         } catch (Exception e) {
@@ -242,10 +254,8 @@ public class GenrePanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddGenre;
-    private javax.swing.JButton btnDeleteAllActors;
+    private javax.swing.JButton btnDeleteAllGenres;
     private javax.swing.JButton btnDeleteGenre;
-    private javax.swing.JButton btnUpdateActor;
-    private javax.swing.JButton btnUpdateActor1;
     private javax.swing.JButton btnUpdateGenre;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane2;
@@ -254,7 +264,7 @@ public class GenrePanel extends javax.swing.JPanel {
     private javax.swing.JTextField tfGenre;
     // End of variables declaration//GEN-END:variables
 
-private boolean formValid() {
+    private boolean formValid() {
         hideErrors();
         boolean ok = true;
 
@@ -264,7 +274,7 @@ private boolean formValid() {
         }
         return ok;
     }
-    
+
     private void hideErrors() {
         errorLabels.forEach(e -> e.setVisible(false));
     }
@@ -277,7 +287,7 @@ private boolean formValid() {
                 lbGenreError
         );
     }
-    
+
     private void initTable() throws Exception {
         repository = RepositoryFactory.getGenreRepository();
         tbGenres.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -286,7 +296,7 @@ private boolean formValid() {
         model = new GenreTableModel(repository.selectGenres());
         tbGenres.setModel(model);
     }
-    
+
     private void init() {
         try {
             initValidation();
@@ -321,7 +331,7 @@ private boolean formValid() {
             e.printStackTrace();
         }
     }
-    
+
     private void fillForm(Genre genre) {
         tfGenre.setText(genre.getName());
     }
