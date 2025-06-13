@@ -40,7 +40,7 @@ public class MovieActorRepositorySql implements MovieActorRepository {
     @Override
     public void clearActorsMovie(int movieId) throws Exception {
         try (Connection con = DataSourceSingleton.getInstance().getConnection();
-                CallableStatement stmt = con.prepareCall(ADD_ACTOR_TO_MOVIE)) {
+                CallableStatement stmt = con.prepareCall(CLEAR_ACTORS_FOR_MOVIE)) {
             
             stmt.setInt(ID_MOVIE, movieId);
             stmt.executeUpdate();

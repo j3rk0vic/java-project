@@ -8,6 +8,7 @@ import hr.algebra.view.EditMoviesPanel;
 import hr.algebra.view.UploadMoviesPanel;
 import hr.algebra.view.auth.LoginPanel;
 import hr.algebra.view.auth.RegisterPanel;
+import hr.algebra.view.dnd.ActorAndDirectorToMovie;
 import hr.algebra.view.entity.ActorPanel;
 import hr.algebra.view.entity.DirectorPanel;
 import hr.algebra.view.entity.GenrePanel;
@@ -48,7 +49,7 @@ public class MovieManager extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tpContent, javax.swing.GroupLayout.DEFAULT_SIZE, 780, Short.MAX_VALUE)
+            .addComponent(tpContent, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
         );
 
         pack();
@@ -96,14 +97,21 @@ public class MovieManager extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initPanels() {
-        tpContent.add("ACTOR PANEL", new ActorPanel());
-        tpContent.add("DIRECTOR PANEL", new DirectorPanel());
-        tpContent.add("GENRE PANEL", new GenrePanel());
-        tpContent.add("LOGIN", new LoginPanel());
-        tpContent.add("AUTH", new RegisterPanel());
+        tpContent.add(ACTOR_PANEL, new ActorPanel());
+        tpContent.add(DIRECTOR_PANEL, new DirectorPanel());
+        tpContent.add(GENRE_PANEL, new GenrePanel());
+        tpContent.add(LOGIN, new LoginPanel());
+        tpContent.add(AUTH, new RegisterPanel());
         tpContent.add(UPLOAD_MOVIES, new UploadMoviesPanel());
         tpContent.add(EDIT_MOVIES, new EditMoviesPanel());
+        tpContent.add(DRAG_AND_DROP, new ActorAndDirectorToMovie());
     }
+    private static final String ACTOR_PANEL = "ACTOR PANEL";
+    private static final String DIRECTOR_PANEL = "DIRECTOR PANEL";
+    private static final String GENRE_PANEL = "GENRE PANEL";
+    private static final String LOGIN = "LOGIN";
+    private static final String AUTH = "AUTH";
+    private static final String DRAG_AND_DROP = "DRAG AND DROP";
     private static final String EDIT_MOVIES = "EDIT_MOVIES";
     private static final String UPLOAD_MOVIES = "UPLOAD_MOVIES";
 }

@@ -6,7 +6,6 @@ package hr.algebra.view.entity;
 
 import hr.algebra.dal.DirectorRepository;
 import hr.algebra.dal.RepositoryFactory;
-import hr.algebra.model.Actor;
 import hr.algebra.model.Director;
 import hr.algebra.utilities.MessageUtils;
 import hr.algebra.view.model.DirectorTableModel;

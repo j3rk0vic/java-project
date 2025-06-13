@@ -11,6 +11,7 @@ import java.util.Objects;
  * @author ivanjerkovic
  */
 public class Actor {
+    
     private int idActor;
     private String firstName;
     private String lastName;
@@ -77,8 +78,7 @@ public class Actor {
 
     @Override
     public String toString() {
-        return "Actor{" + "firstName=" + firstName + ", lastName=" + lastName + '}';
+        return "Actor: " + firstName + " " + lastName;
     }
-
     
 }
