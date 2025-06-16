@@ -57,7 +57,7 @@
                                   </Group>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jLabel6" min="-2" pref="171" max="-2" attributes="0"/>
-                                      <Component id="jButton2" alignment="0" min="-2" pref="222" max="-2" attributes="0"/>
+                                      <Component id="btnSaveMovieDirectors" alignment="0" min="-2" pref="222" max="-2" attributes="0"/>
                                       <Component id="jScrollPane6" alignment="0" min="-2" pref="222" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -122,7 +122,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnSaveMovieActors" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                          <Component id="jButton2" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="btnSaveMovieDirectors" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -302,7 +302,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveMovieActorsActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="btnSaveMovieDirectors">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add Director to Movie"/>
       </Properties>

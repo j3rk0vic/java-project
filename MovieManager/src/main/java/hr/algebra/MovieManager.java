@@ -13,13 +13,17 @@ import hr.algebra.view.entity.ActorPanel;
 import hr.algebra.view.entity.DirectorPanel;
 import hr.algebra.view.entity.GenrePanel;
 import hr.algebra.view.user.UserPanel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author daniel.bele
  */
 public class MovieManager extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form ArticleManager
      */
@@ -27,6 +31,7 @@ public class MovieManager extends javax.swing.JFrame {
         initComponents();
         initPanels();
         restrictAccess();
+        initMenu();
     }
 
     /**
@@ -38,10 +43,27 @@ public class MovieManager extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         tpContent = new javax.swing.JTabbedPane();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+
+        jMenu3.setText("jMenu3");
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Movie manager");
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -51,7 +73,7 @@ public class MovieManager extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tpContent, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+            .addComponent(tpContent, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
         );
 
         pack();
@@ -95,6 +117,11 @@ public class MovieManager extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JTabbedPane tpContent;
     // End of variables declaration//GEN-END:variables
 
@@ -106,7 +133,7 @@ public class MovieManager extends javax.swing.JFrame {
     private static final String DIRECTOR_PANEL = "DIRECTOR PANEL";
     private static final String GENRE_PANEL = "GENRE PANEL";
     private static final String LOGIN = "LOGIN";
-    private static final String AUTH = "AUTH";
+    private static final String AUTH = "REGISTER";
     private static final String DRAG_AND_DROP = "DRAG AND DROP";
     private static final String EDIT_MOVIES = "EDIT_MOVIES";
     private static final String UPLOAD_MOVIES = "UPLOAD_MOVIES";
@@ -120,7 +147,7 @@ public class MovieManager extends javax.swing.JFrame {
     }
 
     public void unlockApplication() {
-        
+
         if (tpContent.indexOfTab(ACTOR_PANEL) == -1) {
             tpContent.add(ACTOR_PANEL, new ActorPanel());
             tpContent.add(DIRECTOR_PANEL, new DirectorPanel());
@@ -131,21 +158,53 @@ public class MovieManager extends javax.swing.JFrame {
             tpContent.add(AUTH, new RegisterPanel());
             tpContent.add(LOGIN, new LoginPanel(this));
         }
-        
+
         int loginIndex = tpContent.indexOfTab(LOGIN);
-        if (loginIndex != -1)tpContent.remove(loginIndex);
-        
+        if (loginIndex != -1) {
+            tpContent.remove(loginIndex);
+        }
+
         int authIndex = tpContent.indexOfTab(AUTH);
-        if (authIndex != -1)tpContent.remove(authIndex);
-        
-        
+        if (authIndex != -1) {
+            tpContent.remove(authIndex);
+        }
+
         tpContent.setSelectedIndex(tpContent.indexOfTab(ACTOR_PANEL));
     }
-    
+
     private static final String USER_PANEL = "USER PANEL";
 
     public void unlockUserView() {
         tpContent.add(USER_PANEL, new UserPanel());
     }
-    
+
+    private void initMenu() {
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu fileMenu = new JMenu("App");
+        JMenuItem quitItem = new JMenuItem("Quit");
+
+        quitItem.addActionListener(e -> System.exit(0));
+
+        fileMenu.add(quitItem);
+        menuBar.add(fileMenu);
+
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem aboutItem = new JMenuItem("About");
+
+        aboutItem.addActionListener(e -> showAboutDialog());
+
+        helpMenu.add(aboutItem);
+        menuBar.add(helpMenu);
+
+        setJMenuBar(menuBar);
+    }
+
+    private void showAboutDialog() {
+        JOptionPane.showMessageDialog(this,
+                "MovieManager v1.0\nMade by Ivan Jerkovic \nAlgebra 2025",
+                "About",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
 }

@@ -143,7 +143,7 @@ public class UserPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private Movie selectedMovie;
-    
+
     private void showData() {
         try {
             SqlRepository repo = new SqlRepository();
@@ -160,8 +160,7 @@ public class UserPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error loading actors: " + e.getMessage());
             e.printStackTrace();
         }
-        
-        
+
         try {
             DirectorRepositorySql repo = new DirectorRepositorySql();
             List<Director> directors = repo.selectDirectors();
@@ -177,8 +176,7 @@ public class UserPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error loading actors: " + e.getMessage());
             e.printStackTrace();
         }
-        
-        
+
         try {
             ActorRepositorySql repo = new ActorRepositorySql();
             List<Actor> actorList = repo.selectActors();
@@ -194,8 +192,7 @@ public class UserPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error loading actors: " + e.getMessage());
             e.printStackTrace();
         }
-        
-        
+
         try {
             GenreRepositorySql repo = new GenreRepositorySql();
             List<Genre> genreList = repo.selectGenres();
@@ -213,5 +210,4 @@ public class UserPanel extends javax.swing.JPanel {
         }
     }
 
-    
 }

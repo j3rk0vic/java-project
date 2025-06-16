@@ -62,7 +62,7 @@ public class ActorAndDirectorToMovie extends javax.swing.JPanel {
         btnAddMovies = new javax.swing.JButton();
         btnClearAll = new javax.swing.JButton();
         btnSaveMovieActors = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnSaveMovieDirectors = new javax.swing.JButton();
 
         jLabel1.setText("Directors");
 
@@ -123,7 +123,7 @@ public class ActorAndDirectorToMovie extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setText("Add Director to Movie");
+        btnSaveMovieDirectors.setText("Add Director to Movie");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -162,7 +162,7 @@ public class ActorAndDirectorToMovie extends javax.swing.JPanel {
                                             .addGap(140, 140, 140)))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnSaveMovieDirectors, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(btnSaveMovieActors, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -212,7 +212,7 @@ public class ActorAndDirectorToMovie extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSaveMovieActors, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnSaveMovieDirectors, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -346,7 +346,7 @@ public class ActorAndDirectorToMovie extends javax.swing.JPanel {
     private javax.swing.JButton btnAddMovies;
     private javax.swing.JButton btnClearAll;
     private javax.swing.JButton btnSaveMovieActors;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnSaveMovieDirectors;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
