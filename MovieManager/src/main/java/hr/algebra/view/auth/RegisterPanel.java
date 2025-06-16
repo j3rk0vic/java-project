@@ -16,11 +16,13 @@ import hr.algebra.view.model.UserTableModel;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -130,35 +132,47 @@ public class RegisterPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private UserRepository repository;
-    
+
     private List<JTextComponent> validationFields;
     private List<JLabel> errorLabels;
-    
-    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-        
-        if (!formValid()) return;
-        
-        
-        // kod: nedaj Boze nikome
-        // 10.6.2025. -> radi, ne diraj zasad.... null more uc u bazu 
-        
-        // mislin da je sad ok, vidi poslje
-        try {
-            User user = new User(
-                    tfRegisterUsername.getText().trim(),
-                    pfRegisterPassword.getPassword().toString().trim()
-            );
-            
-            repository = RepositoryFactory.getUserRepository();
-            user.setRole(Role.USER);
-            repository.registerUser(user);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+
+        if (!formValid()) {
+        return;
+    }
+
+    try {
+        String username = tfRegisterUsername.getText().trim();
+        String plainPassword = pfRegisterPassword.getText().trim();
         
+        String salt = BCrypt.gensalt(); // generiran salt
+        String hashedPassword = BCrypt.hashpw(plainPassword, salt); // ode hashiran pwd sa tin salton
+
+        User user = new User(username, hashedPassword);
+        user.setSalt(salt);
+        user.setRole(Role.USER);
+
+        repository = RepositoryFactory.getUserRepository();
+        repository.registerUser(user);
+
         JOptionPane.showMessageDialog(btnRegister, "User registered :)");
-        
+
+        Optional<User> userOpt = repository.loginUser(username);
+        if (userOpt.isPresent()) {
+            User dbUser = userOpt.get();
+            if (BCrypt.hashpw(plainPassword, dbUser.getSalt()).equals(dbUser.getPassword())) {
+                JOptionPane.showMessageDialog(btnRegister, "Login successful. Welcome, " + dbUser.getUsername());
+            } else {
+                JOptionPane.showMessageDialog(btnRegister, "Unexpected login failure after registration.");
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(btnRegister, "Registration failed: " + e.getMessage());
+    }
+
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
@@ -177,7 +191,7 @@ public class RegisterPanel extends javax.swing.JPanel {
     private javax.swing.JTextField tfRegisterUsername;
     // End of variables declaration//GEN-END:variables
 
-     private void init() {
+    private void init() {
         try {
             initValidation();
             hideErrors();
@@ -187,7 +201,7 @@ public class RegisterPanel extends javax.swing.JPanel {
             System.exit(1);
         }
     }
-    
+
     private boolean formValid() {
         hideErrors();
         boolean ok = true;
@@ -198,11 +212,11 @@ public class RegisterPanel extends javax.swing.JPanel {
         }
         return ok;
     }
-    
+
     private void hideErrors() {
         errorLabels.forEach(e -> e.setVisible(false));
     }
-    
+
     private void initValidation() {
         validationFields = Arrays.asList(
                 tfRegisterUsername,

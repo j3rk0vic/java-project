@@ -14,6 +14,7 @@ public class User {
     private int idUser;
     private String username;
     private String password;
+    private String salt;
     private Role role;
     
     
@@ -21,17 +22,19 @@ public class User {
     public User() {
     }
     
-    public User(int idUser, String username, String password, Role role) {
+    public User(int idUser, String username, String password, Role role, String salt) {
         this.idUser = idUser;
         this.username = username;
         this.password = password;
         this.role = role;
+        this.salt = salt;
     }
     
-    public User(String username, String password, Role role) {
+    public User(String username, String password, Role role, String salt) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.salt = salt;
     }
     
     public User(String username, String password) {
@@ -96,6 +99,14 @@ public class User {
     @Override
     public String toString() {
         return "User{" + "username=" + username + ", password=" + password + ", role=" + role + '}';
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
     
     

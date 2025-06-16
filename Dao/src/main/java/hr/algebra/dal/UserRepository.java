@@ -13,5 +13,5 @@ import java.util.Optional;
  */
 public interface UserRepository {
     int registerUser(User user) throws Exception;
-    Optional<User> loginUser(String username, String password) throws Exception;
+    Optional<User> loginUser(String username) throws Exception;
 }

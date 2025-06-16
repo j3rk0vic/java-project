@@ -4,8 +4,10 @@
  */
 package hr.algebra.view.auth;
 
+import hr.algebra.MovieManager;
 import hr.algebra.dal.RepositoryFactory;
 import hr.algebra.dal.UserRepository;
+import hr.algebra.model.Role;
 import hr.algebra.model.User;
 import hr.algebra.utilities.MessageUtils;
 import hr.algebra.view.model.UserTableModel;
@@ -28,8 +30,11 @@ public class LoginPanel extends javax.swing.JPanel {
     /**
      * Creates new form LoginPanel
      */
-    public LoginPanel() {
+    private final MovieManager movieManager;
+
+    public LoginPanel(MovieManager movieManager) {
         initComponents();
+        this.movieManager = movieManager;
     }
 
     /**
@@ -130,22 +135,22 @@ public class LoginPanel extends javax.swing.JPanel {
     private UserRepository repository;
     private UserTableModel model;
     
+    User user;
+
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        
-        // zali Boze tipkanja:
+
         String username = tfLoginUsername.getText().trim();
-        String plainPassword = new String(pfLoginPassword.getPassword().toString().trim());
-        String hashedPassword = BCrypt.hashpw(plainPassword, BCrypt.gensalt());
-        
-        User user = new User(username, hashedPassword);
-        
+        String plainPassword = pfLoginPassword.getText().trim();
+
         try {
             repository = RepositoryFactory.getUserRepository();
-            Optional<User> userOpt = repository.loginUser(username, plainPassword);
-            
+            Optional<User> userOpt = repository.loginUser(username);
+
             if (userOpt.isPresent()) {
                 user = userOpt.get();
-                if (BCrypt.checkpw(plainPassword, user.getPassword())) {
+                String hashedInputPassword = BCrypt.hashpw(plainPassword, user.getSalt());
+
+                if (hashedInputPassword.equals(user.getPassword())) {
                     JOptionPane.showMessageDialog(btnLogin, "Login successful. Welcome, " + user.getUsername());
                 } else {
                     JOptionPane.showMessageDialog(btnLogin, "Incorrect password.");
@@ -153,8 +158,16 @@ public class LoginPanel extends javax.swing.JPanel {
             } else {
                 JOptionPane.showMessageDialog(btnLogin, "User not found.");
             }
-            
-        } catch (Exception exception) {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(btnLogin, "Login failed: " + e.getMessage());
+        }
+        
+        if (user.getRole() == Role.USER.ADMIN) {
+            movieManager.unlockApplication();
+        } else {
+            movieManager.unlockUserView();
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -183,7 +196,7 @@ public class LoginPanel extends javax.swing.JPanel {
 
     private List<JTextComponent> validationFields;
     private List<JLabel> errorLabels;
-    
+
     private void initValidation() {
         validationFields = Arrays.asList(
                 tfLoginUsername,

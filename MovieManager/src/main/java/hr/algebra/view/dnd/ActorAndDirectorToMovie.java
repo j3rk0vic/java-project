@@ -60,7 +60,7 @@ public class ActorAndDirectorToMovie extends javax.swing.JPanel {
         btnAddActors = new javax.swing.JButton();
         btnAddDirectors = new javax.swing.JButton();
         btnAddMovies = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnClearAll = new javax.swing.JButton();
         btnSaveMovieActors = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -109,10 +109,10 @@ public class ActorAndDirectorToMovie extends javax.swing.JPanel {
             }
         });
 
-        jButton4.setText("Clear All");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnClearAll.setText("Clear All");
+        btnClearAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnClearAllActionPerformed(evt);
             }
         });
 
@@ -170,7 +170,7 @@ public class ActorAndDirectorToMovie extends javax.swing.JPanel {
                             .addComponent(btnAddActors, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAddDirectors, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAddMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(43, 43, 43))))
         );
         layout.setVerticalGroup(
@@ -202,7 +202,7 @@ public class ActorAndDirectorToMovie extends javax.swing.JPanel {
                         .addGap(30, 30, 30)
                         .addComponent(btnAddMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(50, 50, 50)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(98, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -303,10 +303,10 @@ public class ActorAndDirectorToMovie extends javax.swing.JPanel {
         try {
             MovieActorRepositorySql repo = new MovieActorRepositorySql();
 
-            // 1. Očisti prethodne glumce
+            // 1. cistin stare glumce
             repo.clearActorsMovie(selectedMovie.getId());
 
-            // 2. Dodaj nove
+            // 2. dodajen nove
             DefaultListModel<Actor> model = (DefaultListModel<Actor>) lsMovieActors.getModel();
             for (int i = 0; i < model.size(); i++) {
                 Actor actor = model.getElementAt(i);
@@ -321,7 +321,7 @@ public class ActorAndDirectorToMovie extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSaveMovieActorsActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearAllActionPerformed
         lsActors.setModel(new DefaultListModel<>());
         lsDirectors.setModel(new DefaultListModel<>());
         lsMovies.setModel(new DefaultListModel<>());
@@ -337,16 +337,16 @@ public class ActorAndDirectorToMovie extends javax.swing.JPanel {
         lsMovieDirectors.clearSelection();
 
         selectedMovie = null;
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnClearAllActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddActors;
     private javax.swing.JButton btnAddDirectors;
     private javax.swing.JButton btnAddMovies;
+    private javax.swing.JButton btnClearAll;
     private javax.swing.JButton btnSaveMovieActors;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

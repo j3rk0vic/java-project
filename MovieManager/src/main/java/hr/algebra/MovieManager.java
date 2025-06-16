@@ -12,6 +12,7 @@ import hr.algebra.view.dnd.ActorAndDirectorToMovie;
 import hr.algebra.view.entity.ActorPanel;
 import hr.algebra.view.entity.DirectorPanel;
 import hr.algebra.view.entity.GenrePanel;
+import hr.algebra.view.user.UserPanel;
 
 /**
  *
@@ -25,6 +26,7 @@ public class MovieManager extends javax.swing.JFrame {
     public MovieManager() {
         initComponents();
         initPanels();
+        restrictAccess();
     }
 
     /**
@@ -97,14 +99,8 @@ public class MovieManager extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initPanels() {
-        tpContent.add(ACTOR_PANEL, new ActorPanel());
-        tpContent.add(DIRECTOR_PANEL, new DirectorPanel());
-        tpContent.add(GENRE_PANEL, new GenrePanel());
-        tpContent.add(LOGIN, new LoginPanel());
+        tpContent.add(LOGIN, new LoginPanel(this));
         tpContent.add(AUTH, new RegisterPanel());
-        tpContent.add(UPLOAD_MOVIES, new UploadMoviesPanel());
-        tpContent.add(EDIT_MOVIES, new EditMoviesPanel());
-        tpContent.add(DRAG_AND_DROP, new ActorAndDirectorToMovie());
     }
     private static final String ACTOR_PANEL = "ACTOR PANEL";
     private static final String DIRECTOR_PANEL = "DIRECTOR PANEL";
@@ -114,4 +110,42 @@ public class MovieManager extends javax.swing.JFrame {
     private static final String DRAG_AND_DROP = "DRAG AND DROP";
     private static final String EDIT_MOVIES = "EDIT_MOVIES";
     private static final String UPLOAD_MOVIES = "UPLOAD_MOVIES";
+
+    private void restrictAccess() {
+        for (int i = tpContent.getTabCount() - 1; i >= 0; i--) {
+            tpContent.setSelectedIndex(tpContent.indexOfTab(LOGIN));
+        }
+
+        tpContent.setSelectedIndex(tpContent.indexOfTab(LOGIN));
+    }
+
+    public void unlockApplication() {
+        
+        if (tpContent.indexOfTab(ACTOR_PANEL) == -1) {
+            tpContent.add(ACTOR_PANEL, new ActorPanel());
+            tpContent.add(DIRECTOR_PANEL, new DirectorPanel());
+            tpContent.add(GENRE_PANEL, new GenrePanel());
+            tpContent.add(UPLOAD_MOVIES, new UploadMoviesPanel());
+            tpContent.add(EDIT_MOVIES, new EditMoviesPanel());
+            tpContent.add(DRAG_AND_DROP, new ActorAndDirectorToMovie());
+            tpContent.add(AUTH, new RegisterPanel());
+            tpContent.add(LOGIN, new LoginPanel(this));
+        }
+        
+        int loginIndex = tpContent.indexOfTab(LOGIN);
+        if (loginIndex != -1)tpContent.remove(loginIndex);
+        
+        int authIndex = tpContent.indexOfTab(AUTH);
+        if (authIndex != -1)tpContent.remove(authIndex);
+        
+        
+        tpContent.setSelectedIndex(tpContent.indexOfTab(ACTOR_PANEL));
+    }
+    
+    private static final String USER_PANEL = "USER PANEL";
+
+    public void unlockUserView() {
+        tpContent.add(USER_PANEL, new UserPanel());
+    }
+    
 }
